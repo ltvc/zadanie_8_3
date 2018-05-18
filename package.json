@@ -1,22 +1,47 @@
-{
   "name": "zadanie_8_3",
   "version": "1.0.0",
-  "description": "",
+  "description": "https://github.com/ltvc/zadanie_8_3.git",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm-run-all test:*",
+    "test:html": "globstar nu-html-checker *.html",
+	"test:js": "jshint /js/*.js"
+    "init-project": "npm install && npm-run-all init:*",
+    "init:dirs": "mkdirp sass css vendor images js",
+    "init:files": "touch README.md index.html sass/style.scss js/script.js",
+    "init:gitignore": "curl https://raw.githubusercontent.com/github/gitignore/master/Node.gitignore -o .gitignore",
+    "build": "npm-run-all build:* test",
+	"build:clean": "rimraf /learning-git-2/css/*",
+    "build:sass": "node-sass --output-style compact -o css sass",
+    "build:autoprefixer": "autoprefixer-cli css/style.css",
+    "watch": "npm-run-all build -p watch:*",
+	"watch:browsersync": "browser-sync start --server --files \"css/*.css\" \"*.html\"",
+	"watch:sassprefixer": "onchange sass/*.scss -- npm-run-all sasspre:*",
+    "sasspre:watchsass": "node-sass --output-style expanded --source-map true -o css sass",
+    "sasspre:autoprefixer": "build:autoprefixer"
+
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ltvc/zadanie_8_3.git"
   },
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ltvc/zadanie_8_3/issues"
+    "url": "https://github.com/ltvc/zadanie_8_3.git/issues"
   },
-  "homepage": "https://github.com/ltvc/zadanie_8_3#readme",
-  "dependencies": {
-    "jshint": "^2.9.5"
-  }
-}
+  "homepage": "https://github.com/ltvc/zadanie_8_3.git#readme",
+  "devDependencies": {
+    "autoprefixer-cli": "^1.0.0",
+    "browser-sync": "^2.23.6",
+    "globstar": "^1.0.0",
+    "mkdirp": "^0.5.1",
+    "node-sass": "^4.8.3",
+    "npm-run-all": "^4.1.2",
+    "nu-html-checker": "^0.1.0",
+    "onchange": "^3.3.0",
+    "rimraf": "^2.6.2",
+	"jshint": "^2.9.5"
+  },
+  "dependencies": {}
